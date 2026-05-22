@@ -1,0 +1,26 @@
+name: weekly-sprint
+
+# Runs every Monday 09:00 UTC, and on-demand from the Actions tab.
+on:
+  schedule:
+    - cron: "0 9 * * 1"
+  workflow_dispatch:
+
+jobs:
+  sprint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm ci || npm install
+      - name: Generate and store the sprint
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          CLAUDE_MODEL: ${{ vars.CLAUDE_MODEL }}
+        run: node sprint.mjs
+      # Next phase: a second job here dispatches the builder (Claude Code Web
+      # Session) against the-product to implement this sprint's tickets, opens a
+      # PR, runs CI (build + lint + test + guard), and auto-merges.

@@ -1,0 +1,14 @@
+{
+  "name": "the-org",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "sprint": "node sprint.mjs",
+    "sprint:dry": "node sprint.mjs --dry-run"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "@neondatabase/serverless": "^0.10.4"
+  }
+}
